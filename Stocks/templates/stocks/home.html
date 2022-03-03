@@ -1,0 +1,72 @@
+{% extends 'Stocks/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .header_container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 1rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header_img {
+        width: 80%;
+        height: 80%;
+        border-radius: 60px;
+        padding: 2rem;
+    }
+
+    .hero_content {
+        color: black;
+        padding: 3rem 1rem;
+        line-height: 1;
+    }
+
+    .hero_content h1 {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero_content p {
+        font-size: clamp(1rem, 4vw, 2rem);
+        margin-bottom: 3rem;
+    }
+
+
+
+    @media screen and (max-width: 768px) {
+        .header_container {
+            grid-template-columns: 1fr;
+        }
+
+        .header_img {
+            padding: 1rem;
+        }
+
+        .hero_content {
+            padding: 1rem 1rem;
+        }
+    }
+</style>
+<div class="container">
+    <div class="row" style="justify-content: center;align-items:center">
+        <div class="header">
+            <div class="header_container">
+                <div>
+                    <div class="hero_content">
+                        <h1 class="">Groww</h1>
+                        <p class="">Welcome to the World of Trading !!</p>
+                        <a class="btn btn-primary" href="{% url 'Stocks:stocksList' %}">Get Started</a>
+                    </div>
+                </div>
+                <div>
+                    <img src="{% static 'images/i1.png' %}" alt="" class="header_img">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

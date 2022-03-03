@@ -1,0 +1,121 @@
+{% extends 'Stocks/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .header {
+        background-image: url();
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .header_container {
+        display: grid;
+        padding: 1.2rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero_content {
+        color: black;
+        padding: 4rem 1rem;
+        line-height: 1;
+    }
+
+    .hero_content h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .hero_content {
+            padding: 1rem 1rem;
+        }
+    }
+</style>
+<div class="container">
+    <div class="header my-2">
+        <div class="header_container">
+            <div>
+                <div class="hero_content">
+                    <h1 class="h1 text-info">Profile</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-body mt-5" style="top: 5rem;">
+                    <form class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" value="{{trader.name}}" readonly>
+
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="address" class="form-label">Address </label>
+                            <input type="text" class="form-control" id="address" value="{{trader.address}}" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">E-mail </label>
+                            <input type="email" class="form-control" id="email" value="{{trader.email}}" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="contact" class="form-label">Contact No</label>
+                            <input type="text" class="form-control" id="contact" value="{{trader.contact}}" readonly>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <div class="row m-2 p-2">
+        <h3 class="text-center h3 my-3">Portfolio Details</h3>
+        <table class="">
+            <tr>
+                <th>Sr.No</th>
+                <th>Company Name</th>
+                <th>Symbol</th>
+                <th>Price </th>
+                <th>Change in Price </th>
+                <th>Change Percent </th>
+                <th>Action</th>
+
+
+            </tr>
+            {% for stock in trader_stocks %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{stock.stock.name}}</td>
+                <td>{{stock.stock.symbol}}</td>
+                <td>&#8377;{{stock.stock.currentPrice|floatformat:2}}</td>
+
+                {% if stock.stock.get_price < 0 %} <td class="text-danger">
+                    &#8377;{{stock.stock.get_price|floatformat:2}}</td>
+                    <td class="text-danger">{{stock.stock.get_percent|floatformat:2}}%</td>
+                    {% elif stock.stock.get_price > 0 %}
+                    <td class="text-success">&#8377;{{stock.stock.get_price|floatformat:2 }}</td>
+                    <td class="text-success">{{stock.stock.get_percent|floatformat:2}}%</td>
+                    {% else %}
+                    <td>&#8377;{{stock.stock.get_price|floatformat:2 }}</td>
+                    <td>{{stock.stock.get_percent|floatformat:2}}%</td>
+
+                    {% endif %}
+                    {% if request.user.is_staff %}
+
+                    <td><a href="{% url 'Stocks:stockDetails' stock.id %}" class="btn btn-outline-primary">View</a></td>
+                    {% else %}
+                    <td><a href="{% url 'Trader:sell_stock' stock.id %}" class="btn btn-outline-info">Sell</a></td>
+                    {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

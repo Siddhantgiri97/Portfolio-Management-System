@@ -1,0 +1,52 @@
+{% extends 'Stocks/base.html' %}
+
+{% block form %}
+<form class="d-flex" method="GET" action="{% url 'Stocks:search_stock' %}">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+    <button class="btn btn-outline-success me-2" type="submit"><i class="bi bi-search"></i></button>
+</form>
+{% endblock form %}
+
+{% block content %}
+{% include 'Stocks/messages.html' %}
+<div class="container">
+    <div class="row mt-5" style="justify-content: center;align-items: center;">
+        <h3 class="text-center m-2 mb-4">Trending Stocks</h3>
+        <table class="">
+            <tr>
+                <th>Sr.No</th>
+                <th>Company Name</th>
+                <th>Symbol</th>
+                <th>Price </th>
+                <th>Change in Price </th>
+                <th>Change Percent </th>
+                <th>Action</th>
+            </tr>
+            {% for stock in stocks %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{stock.name}}</td>
+                <td>{{stock.symbol}}</td>
+                <td>&#8377;{{stock.currentPrice|floatformat:2}}</td>
+
+                {% if stock.get_price < 0 %} <td class="text-danger">&#8377;{{stock.get_price|floatformat:2 }}</td>
+                    <td class="text-danger">{{stock.get_percent|floatformat:2}}%</td>
+                    {% elif stock.get_price > 0 %}
+                    <td class="text-success">&#8377;{{stock.get_price|floatformat:2 }}</td>
+                    <td class="text-success">{{stock.get_percent|floatformat:2}}%</td>
+                    {% else %}
+                    <td>&#8377;{{stock.get_price|floatformat:2 }}</td>
+                    <td>{{stock.get_percent|floatformat:2}}%</td>
+
+                    {% endif %}
+
+
+
+                    <td><a href="{% url 'Stocks:stockDetails' stock.id %}" class="btn btn-outline-primary">View</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

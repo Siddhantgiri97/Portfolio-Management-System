@@ -1,0 +1,18 @@
+{% extends 'Stocks/base.html' %}
+
+{% block content %}
+<div class="container mt-3 card card-body rounded">
+    <div class="row" style="justify-content: center; align-items: center;">
+        <div class="col-md-8">
+            <h4 class="text-center alert alert-info">Add A New Stock</h4>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input class="btn btn-primary" type="submit" value="Add">
+                <a class="btn btn-primary" href="{% url 'Stocks:stocksList' %}">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

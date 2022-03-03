@@ -1,0 +1,31 @@
+{% extends 'Stocks/base.html' %}
+
+{% block content %}
+<style>
+    .site-form input,
+    .site-form textarea {
+        margin: 15px auto 10px auto;
+    }
+
+    .site-form label {
+        margin-left: 300px;
+    }
+</style>
+<div class="container">
+    <div class="row" style="justify-content: center;align-items: center;">
+        <div class="col-md-8" style="justify-content: center;align-items: center;">
+
+            <form class="site-form" action="{% url 'accounts:login' %}" method="post">
+                {% csrf_token %}
+                <h1 class="h1 text-center m-5 p-2">Login</h1>
+                {{form}}
+                {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                {% endif %}
+                <input type="submit" class="btn btn-primary mt-4" value="Login">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends 'Stocks/base.html' %}
+
+{% block content %}
+<div class="container my-3">
+    <div class="row" style="justify-content: center; align-items: center;">
+        <h3>Search results for "{{ query }}" : </h3>
+        <hr>
+
+        {% if results %}
+        <div class="container">
+            <div class="row mt-5" style="justify-content: center;align-items: center;">
+                <h3 class="text-center m-2 mb-4">List of Stocks</h3>
+                <table class="">
+                    <tr>
+                        <th>Sr.No</th>
+                        <th>Company Name</th>
+                        <th>Symbol</th>
+                        <th>Price </th>
+                        <th>Change In Price </th>
+                        <th>Change Percent </th>
+                        <th>Action</th>
+                    </tr>
+                    {% for stock in results %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{stock.name}}</td>
+                        <td>{{stock.symbol}}</td>
+                        <td>&#8377;{{stock.currentPrice|floatformat:2}}</td>
+                        <td>&#8377;{{stock.get_price|floatformat:2}}</td>
+                        <td>{{stock.get_percent|floatformat:2}}%</td>
+                        <td><a href="{% url 'Stocks:stockDetails' stock.id %}" class="btn btn-outline-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        {% else %}
+        <h2 class="text-center m-2 p-2">No results found.</h2>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
